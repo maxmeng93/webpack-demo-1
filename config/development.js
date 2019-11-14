@@ -14,13 +14,30 @@ module.exports = {
     publicPath: 'dist/',
     path: path.resolve(__dirname, '../', 'dist'),
   },
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     contentBase: './dist',
     hot: true
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              experimentalWatchApi: true,
+            }
+          }
+        ]
+      },
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, '../', 'src'),
+        loader: 'babel-loader',
+      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']

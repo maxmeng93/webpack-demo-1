@@ -12,8 +12,8 @@ module.exports = {
     // publicPath: 'dist/',
     path: path.resolve(__dirname, '../', 'dist'),
   },
-  // devtool: 'inline-source-map',
   optimization: {
+    moduleIds: 'hashed', // 模块标识符，防止同样的模块 hash不同，造成缓存失效
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
@@ -28,6 +28,23 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              experimentalWatchApi: true,
+            }
+          }
+        ]
+      },
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, '../', 'src'),
+        loader: 'babel-loader',
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       }
@@ -40,6 +57,5 @@ module.exports = {
       title: '缓存',
       // template: './index.html'
     }),
-    new webpack.HashedModuleIdsPlugin(), // 模块标识符，防止同样的模块 hash不同，造成缓存失效
   ],
 }
