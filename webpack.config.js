@@ -1,43 +1,33 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = function(env, argv) {
   const isDev = env && env.development ? true : false;
+  console.log(env);
 
   return {
     mode: isDev ? 'development' : 'production',
-    entry: './src/index.js',
+    entry: {
+      app: './src/index.js',
+      print: './src/print.js',
+    },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'bundle.js',
+      filename: '[name].bundle.js',
     },
-    module: {
-      rules: [
-        {
-          test: /\.css$/,
-          use: [
-            'style-loader',
-            'css-loader'
-          ]
-        },
-        {
-          test: /\.(png|svg|jpg|gif)$/,
-          use: [
-            'file-loader'
-          ]
-        },
-        {
-          test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [
-            'file-loader'
-          ]
-        }
-      ]
+    devtool: 'inline-source-map',
+    devServer: {
+      contentBase: './dist'
     },
-    // plugins: [
-    //   new webpack.ProgressPlugin(),
-    //   new HtmlWebpackPlugin({template: './index.html'})
-    // ],
+    plugins: [
+      new webpack.ProgressPlugin(),
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        title: '管理输出',
+        template: './index.html'
+      })
+    ],
   };
 };
