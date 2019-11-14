@@ -4,9 +4,9 @@
   "description": "学习webpack",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.config.js --env.development",
-    "watch": "webpack --config webpack.config.js --env.development --watch",
-    "build": "webpack --config webpack.config.js --env.production"
+    "start": "webpack-dev-server --open --env.development",
+    "watch": "webpack --env.development --watch",
+    "build": "webpack --env.production"
   },
   "keywords": [],
   "author": "",
